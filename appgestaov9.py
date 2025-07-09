@@ -304,7 +304,6 @@ elif st.session_state.authenticated:
                                 for file in sorted(os.listdir(fase_path)):
                                     full_path = os.path.join(fase_path, file)
 
-                                    # Ignorar diretórios
                                     if os.path.isdir(full_path):
                                         continue
 
@@ -314,8 +313,8 @@ elif st.session_state.authenticated:
                                     with open(full_path, "rb") as f:
                                         b64 = base64.b64encode(f.read()).decode("utf-8")
                                         if file.lower().endswith(".pdf"):
-                                            href = f'<a href="data:application/pdf;base64,{b64}" target="_blank">🔍 Visualizar PDF</a>'
-                                            if st.button(f"🔍 Abrir PDF ({file})", key=hash_key("btn_" + full_path)):
+                                            href = f'<a href="data:application/pdf;base64,{b64}" target="_blank">👁️ Visualizar PDF</a>'
+                                            if st.button("👁️ Visualizar PDF", key=hash_key("btn_" + full_path)):
                                                 st.markdown(href, unsafe_allow_html=True)
                                             f.seek(0)
                                             if "download" in user_permissions:
@@ -332,13 +331,12 @@ elif st.session_state.authenticated:
                                             if "download" in user_permissions:
                                                 st.download_button("📥 Baixar Arquivo", f, file_name=file, key=hash_key("oth_" + full_path))
 
-                                    # Botão Revisões
                                     nome_base, revisao_atual, versao_atual = extrair_info_arquivo(file)
                                     pasta_revisoes = os.path.join(fase_path, "Revisoes", nome_base)
                                     if os.path.exists(pasta_revisoes):
                                         revisoes_antigas = sorted(os.listdir(pasta_revisoes))
                                         if revisoes_antigas:
-                                            with st.expander(f"📜 Revisões anteriores de {file}"):
+                                            with st.expander("⬅️ Revisões anteriores"):
                                                 for rev_file in revisoes_antigas:
                                                     rev_path = os.path.join(pasta_revisoes, rev_file)
                                                     if os.path.isdir(rev_path):
@@ -347,8 +345,8 @@ elif st.session_state.authenticated:
                                                     with open(rev_path, "rb") as rf:
                                                         b64_rev = base64.b64encode(rf.read()).decode("utf-8")
                                                         if rev_file.lower().endswith(".pdf"):
-                                                            href_rev = f'<a href="data:application/pdf;base64,{b64_rev}" target="_blank">🔍 Visualizar</a>'
-                                                            if st.button(f"🔍 Ver ({rev_file})", key=hash_key("btn_rev_" + rev_path)):
+                                                            href_rev = f'<a href="data:application/pdf;base64,{b64_rev}" target="_blank">👁️ Visualizar PDF</a>'
+                                                            if st.button("👁️ Visualizar PDF", key=hash_key("btn_rev_" + rev_path)):
                                                                 st.markdown(href_rev, unsafe_allow_html=True)
                                                             rf.seek(0)
                                                             if "download" in user_permissions:
@@ -376,9 +374,9 @@ elif st.session_state.authenticated:
                     st.write(f"📄 {os.path.relpath(file, BASE_DIR)}")
                     with open(file, "rb") as f:
                         b64 = base64.b64encode(f.read()).decode("utf-8")
-                        if file.endswith(".pdf"):
-                            href = f'<a href="data:application/pdf;base64,{b64}" target="_blank">🔍 Visualizar PDF</a>'
-                            if st.button(f"🔍 Abrir PDF ({file})", key=hash_key("btnk_" + file)):
+                        if file.lower().endswith(".pdf"):
+                            href = f'<a href="data:application/pdf;base64,{b64}" target="_blank">👁️ Visualizar PDF</a>'
+                            if st.button("👁️ Visualizar PDF", key=hash_key("btnk_" + file)):
                                 st.markdown(href, unsafe_allow_html=True)
                             f.seek(0)
                             if "download" in user_permissions:
